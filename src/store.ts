@@ -13,7 +13,7 @@ declare global {
 function configureStore() {
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const sagaMiddleware = createSagaMiddleware()
-  const middlewares : Array<Middleware> = [sagaMiddleware, routerMiddleware(history)];
+  const middlewares: Array<Middleware> = [sagaMiddleware, routerMiddleware(history)];
   const middlewareEnhancer = [applyMiddleware(...middlewares)];
 
   const store = createStore(rootReducer, composeEnhancers(...middlewareEnhancer));
@@ -21,4 +21,9 @@ function configureStore() {
   return store;
 }
 
-export default configureStore;
+const store = configureStore()
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+
+export default store;

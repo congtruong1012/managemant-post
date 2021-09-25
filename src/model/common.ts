@@ -1,3 +1,4 @@
+import { Action } from 'redux';
 export interface Params {
   _limit: number,
   _page: number,

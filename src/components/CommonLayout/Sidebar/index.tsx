@@ -1,6 +1,3 @@
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PersonIcon from '@mui/icons-material/Person';
-import PostAddIcon from '@mui/icons-material/PostAdd';
 import {
   List, ListItem,
   ListItemButton,

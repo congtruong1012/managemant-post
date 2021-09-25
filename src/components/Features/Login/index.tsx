@@ -1,8 +1,8 @@
-import { TextField, Typography, Button } from '@mui/material';
+import { TextField, Typography, Button, CircularProgress } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
-import { useHistory } from 'react-router';
-import AxiosClient from '../../../api';
+import { login } from '../../../action';
+import { useAppDispatch, useAppSelector } from '../../../hook';
 import { Section } from '../../CommonLayout/Section';
 const useStyles = makeStyles(({
   root: {
@@ -23,17 +23,15 @@ const useStyles = makeStyles(({
 
 export const Login = () => {
   const classes = useStyles()
-  const history = useHistory()
+  const selector = useAppSelector(state => state.auth)
+  const { loading } = selector
+  const dispatch = useAppDispatch();
 
-  const handleLogin = async () => {
-    const res = await AxiosClient.post('/login', {
+  const handleLogin = () => {
+    dispatch(login({
       username: 'congtruong',
       password: '4297f44b13955235245b2497399d7a93'
-    })
-    if (res.data) {
-      localStorage.setItem('access_token', res.data)
-    }
-    history.push('/')
+    }))
   }
 
   return (
@@ -44,7 +42,14 @@ export const Login = () => {
             <Typography variant="h5" align="center">ĐĂNG NHẬP</Typography>
             <TextField label="Tên đăng nhập" variant="outlined" fullWidth size="small" />
             <TextField label="Mật khẩu" variant="outlined" fullWidth size="small" />
-            <Button onClick={handleLogin} variant="contained">Đăng nhập</Button>
+            <Button
+              onClick={handleLogin}
+              variant="contained"
+              startIcon={loading && <CircularProgress size={20} />}
+              disabled={loading}
+            >
+              Đăng nhập
+            </Button>
           </Section>
         </form>
       </div>
