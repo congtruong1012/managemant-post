@@ -1,6 +1,7 @@
 import { TextField, Typography, Button } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
+import { useHistory } from 'react-router';
 import AxiosClient from '../../../api';
 import { Section } from '../../CommonLayout/Section';
 const useStyles = makeStyles(({
@@ -18,22 +19,21 @@ const useStyles = makeStyles(({
   }
 }))
 
-interface Props {
-  setIsLogin: Function
-}
 
-export const Login = ({ setIsLogin }: Props) => {
+
+export const Login = () => {
   const classes = useStyles()
+  const history = useHistory()
 
   const handleLogin = async () => {
     const res = await AxiosClient.post('/login', {
       username: 'congtruong',
       password: '4297f44b13955235245b2497399d7a93'
     })
-    if(res.data) {
+    if (res.data) {
       localStorage.setItem('access_token', res.data)
     }
-      setIsLogin(true)
+    history.push('/')
   }
 
   return (

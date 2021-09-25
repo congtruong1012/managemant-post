@@ -8,34 +8,22 @@ import {
   ListItemText
 } from '@mui/material';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import routes from '../../../routes';
 
 export default function SideBar() {
   return (
     <List>
-      <ListItem disablePadding>
-        <ListItemButton>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="DashBoard" />
-        </ListItemButton>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemButton>
-          <ListItemIcon>
-            <PostAddIcon />
-          </ListItemIcon>
-          <ListItemText primary="Posts" />
-        </ListItemButton>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemButton>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText primary="Users" />
-        </ListItemButton>
-      </ListItem>
+      {routes.map(item => (
+        <ListItem disablePadding component={Link} to={item.path} key={item.path}>
+          <ListItemButton>
+            <ListItemIcon>
+              <item.icon />
+            </ListItemIcon>
+            <ListItemText primary={item.label} />
+          </ListItemButton>
+        </ListItem>
+      ))}
     </List>
   );
 }

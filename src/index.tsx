@@ -1,11 +1,24 @@
+import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { Switch } from 'react-router';
 import App from './App';
+import history from './history';
+import configureStore from './store';
 // import reportWebVitals from './reportWebVitals';
+
+const store = configureStore()
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <Switch>
+          <App />
+        </Switch>
+      </ConnectedRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

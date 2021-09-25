@@ -31,15 +31,14 @@ const useStyles = makeStyles(() => ({
 
 interface Props {
   children: ReactNode,
-  setIsLogin: Function
 }
 
-export const CommonLayout = ({ children, setIsLogin }: Props) => {
+export const CommonLayout = ({ children }: Props) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Header setIsLogin={setIsLogin} />
+        <Header />
       </div>
       <div className={classes.sidebar}>
         <SideBar />

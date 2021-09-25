@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CommonLayout } from './components/CommonLayout';
-import { Posts } from './components/Features';
 import { Login } from './components/Features/Login';
-// import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import routes from './routes';
 function App() {
-  // const { pathname } = useLocation()
-  const [isLogin, setIsLogin] = useState(false)
-  return isLogin ? (
-    <CommonLayout setIsLogin={setIsLogin} >
-      <Posts />
-    </CommonLayout>) : (<Login setIsLogin={setIsLogin} />)
+  const { pathname } = useLocation()
+
+  return pathname !== '/login' ? (
+    <CommonLayout>
+      {routes.map((item, index) => <Route key={String(index)} {...item} />)}
+    </CommonLayout>
+  ) : (<Login />)
 
 }
 
