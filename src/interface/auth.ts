@@ -1,9 +1,9 @@
 export interface AuthParams {
-  username: string,
-  password: string
+  username: string;
+  password: string;
 }
 
 export interface AuthPayload {
-  data: string | null,
-  error: string,
+  data: string | null;
+  error: string;
 }

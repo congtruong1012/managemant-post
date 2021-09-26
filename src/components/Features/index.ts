@@ -1,2 +1,2 @@
-export * from './Posts'
-export * from './Dashboard'
+export * from './Posts';
+export * from './Dashboard';

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode } from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { createTheme } from '@mui/material/styles';
 import Header from './Header';
@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface Props {
-  children: ReactNode,
+  children: ReactNode;
 }
 
 export const CommonLayout = ({ children }: Props) => {
@@ -43,9 +43,7 @@ export const CommonLayout = ({ children }: Props) => {
       <div className={classes.sidebar}>
         <SideBar />
       </div>
-      <div className={classes.main}>
-        {children}
-      </div>
+      <div className={classes.main}>{children}</div>
     </div>
-  )
-}
+  );
+};

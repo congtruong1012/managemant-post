@@ -1,9 +1,8 @@
-import { Action } from 'redux';
 export interface Params {
-  _limit: number,
-  _page: number,
-  _sort?: string,
-  _order?: 'asc' | 'desc'
+  _limit: number;
+  _page: number;
+  _sort?: string;
+  _order?: 'asc' | 'desc';
 }
 
 export interface Pagination {

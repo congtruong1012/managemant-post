@@ -1,13 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-interface Props {
-  
-}
+interface Props {}
 
 export const Dashboard = (props: Props) => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
