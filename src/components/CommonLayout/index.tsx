@@ -1,8 +1,11 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { createTheme } from '@mui/material/styles';
 import Header from './Header';
 import SideBar from './Sidebar';
+import { PrivateRoute } from './PrivateRoute';
+import routes from '../../routes';
+import { Switch } from 'react-router';
 const theme = createTheme();
 const useStyles = makeStyles(() => ({
   root: {
@@ -29,11 +32,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-interface Props {
-  children: ReactNode;
-}
-
-export const CommonLayout = ({ children }: Props) => {
+export const CommonLayout = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -43,7 +42,13 @@ export const CommonLayout = ({ children }: Props) => {
       <div className={classes.sidebar}>
         <SideBar />
       </div>
-      <div className={classes.main}>{children}</div>
+      <div className={classes.main}>
+        <Switch>
+          {routes.map((item, index) => (
+            <PrivateRoute key={String(index)} {...item} />
+          ))}
+        </Switch>
+      </div>
     </div>
   );
 };

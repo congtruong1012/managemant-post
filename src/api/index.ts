@@ -12,7 +12,7 @@ const AxiosClient = Axios.create({
 AxiosClient.interceptors.request.use(
   function (config: AxiosRequestConfig) {
     // Do something before request is sent
-    const accessToken = localStorage.getItem('access_token');
+    const accessToken = localStorage.getItem('token');
     if (accessToken) config.headers['Authorization'] = `Basic ${accessToken}`;
     return config;
   },

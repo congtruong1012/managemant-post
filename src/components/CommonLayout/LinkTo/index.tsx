@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { Link, LinkProps } from '@mui/material';
+const LinkTo = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
+  <Link component={RouterLink} to="/" ref={ref} {...props} />
+));
 
-function index() {
-  return <div></div>;
-}
-
-export default index;
+export default LinkTo;

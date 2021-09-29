@@ -7,14 +7,14 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 const routes = [
   {
     label: 'Dashboard',
-    path: '/',
-    exact: false,
+    path: '/admin/dashboard',
+    exact: true,
     component: Dashboard,
     icon: DashboardIcon,
   },
   {
     label: 'Posts',
-    path: '/post',
+    path: '/admin/post',
     exact: true,
     component: Posts,
     icon: PostAddIcon,

@@ -1,9 +1,17 @@
-import { TextField, Typography, Button, CircularProgress } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Button, CircularProgress, TextField, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import React from 'react';
+import md5 from 'md5';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { login } from '../../../action';
 import { useAppDispatch, useAppSelector } from '../../../hook';
-import { Section } from '../../CommonLayout/Section';
+import { AuthParams } from '../../../interface';
+import yup from '../../../utils/yup';
+import Section from '../../CommonLayout/Section';
+import jwt from 'jwt-decode';
+import { useHistory } from 'react-router-dom';
+
 const useStyles = makeStyles({
   root: {
     display: 'flex',
@@ -24,20 +32,39 @@ export const Login = () => {
   const selector = useAppSelector((state) => state.auth);
   const { loading } = selector;
   const dispatch = useAppDispatch();
+  const { push } = useHistory();
 
-  const handleLogin = () => {
-    dispatch(
-      login({
-        username: 'congtruong',
-        password: '4297f44b13955235245b2497399d7a93',
-      })
-    );
+  const schema = yup.object({
+    username: yup.string().required().label('Tên đăng nhập'),
+    password: yup.string().required().label('Mật khâu'),
+  });
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<AuthParams>({
+    defaultValues: {
+      username: '',
+      password: '',
+    },
+    resolver: yupResolver(schema),
+  });
+
+  const handleLogin = (data: AuthParams) => {
+    dispatch(login({ ...data, password: md5(data?.password) }));
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const verifyToken = token && jwt(token);
+    if (token && verifyToken) push('/admin');
+  }, []);
 
   return (
     <div className={classes.root}>
       <div className={classes.form}>
-        <form>
+        <form onSubmit={handleSubmit(handleLogin)}>
           <Section>
             <Typography variant="h5" align="center">
               ĐĂNG NHẬP
@@ -47,15 +74,22 @@ export const Login = () => {
               variant="outlined"
               fullWidth
               size="small"
+              {...register('username')}
+              error={!!errors?.username}
+              helperText={errors?.username?.message || ''}
             />
             <TextField
               label="Mật khẩu"
               variant="outlined"
+              type="password"
               fullWidth
               size="small"
+              {...register('password')}
+              error={!!errors?.password}
+              helperText={errors?.password?.message || ''}
             />
             <Button
-              onClick={handleLogin}
+              type="submit"
               variant="contained"
               startIcon={loading && <CircularProgress size={20} />}
               disabled={loading}

@@ -1,20 +1,22 @@
 import React from 'react';
 import { CommonLayout } from './components/CommonLayout';
 import { Login } from './components/Features/Login';
-import { useLocation } from 'react-router-dom';
 import { Route } from 'react-router-dom';
-import routes from './routes';
-function App() {
-  const { pathname } = useLocation();
+import { NotFound } from './components/CommonLayout/NotFound';
 
-  return pathname !== '/login' ? (
-    <CommonLayout>
-      {routes.map((item, index) => (
-        <Route key={String(index)} {...item} />
-      ))}
-    </CommonLayout>
-  ) : (
-    <Login />
+function App() {
+  return (
+    <React.Fragment>
+      <Route path="/admin">
+        <CommonLayout />
+      </Route>
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="*">
+        <NotFound />
+      </Route>
+    </React.Fragment>
   );
 }
 

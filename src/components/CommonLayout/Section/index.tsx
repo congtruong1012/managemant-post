@@ -5,7 +5,7 @@ interface Props {
   children: ReactNode | Array<ReactNode>;
 }
 
-export const Section = ({ children }: Props) => (
+const Section = ({ children }: Props) => (
   <Grid container spacing={2}>
     {Array.isArray(children) ? (
       children.map((item, index) => (
@@ -20,3 +20,5 @@ export const Section = ({ children }: Props) => (
     )}
   </Grid>
 );
+
+export default Section;

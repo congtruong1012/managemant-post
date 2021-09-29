@@ -1,10 +1,10 @@
-import { LOGIN, LOGOUT } from './../constant/auth';
-import { AuthPayload } from './../interface/auth';
-import { userApi } from './../api/userApi';
-import { call, delay, fork, put, take } from '@redux-saga/core/effects';
+import { call, delay, put, takeLatest } from '@redux-saga/core/effects';
+import { push } from 'connected-react-router';
 import { AnyAction } from 'redux';
 import { loginFail, loginSuccess } from '../action';
-import { push } from 'connected-react-router';
+import { userApi } from './../api/userApi';
+import { LOGIN, LOGOUT } from './../constant/auth';
+import { AuthPayload } from './../interface/auth';
 
 function* handleLogin({ params }: AnyAction) {
   try {
@@ -13,7 +13,7 @@ function* handleLogin({ params }: AnyAction) {
     if (resp.data) {
       localStorage.setItem('token', resp.data);
       yield put(loginSuccess(resp));
-      yield put(push('/'));
+      yield put(push('/admin'));
     }
   } catch (error) {
     yield put(loginFail(error as string));
@@ -26,25 +26,7 @@ function* handleLogout() {
   yield put(push('/login'));
 }
 
-function* watchLoginFlow() {
-  console.log('beginning....');
-
-  while (true) {
-    const isLoggedIn = Boolean(localStorage.getItem('token'));
-
-    if (!isLoggedIn) {
-      const action: AnyAction = yield take(LOGIN);
-      console.log('...logining');
-
-      yield fork(handleLogin, action);
-    }
-
-    yield take(LOGOUT);
-    yield call(handleLogout);
-    console.log('...logouting');
-  }
-}
-
 export default function* authSaga() {
-  yield call(watchLoginFlow);
+  yield takeLatest(LOGIN, handleLogin);
+  yield takeLatest(LOGOUT, handleLogout);
 }
