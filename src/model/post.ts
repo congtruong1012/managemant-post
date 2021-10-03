@@ -13,4 +13,5 @@ export interface Post {
   share: number;
   approved: Approved;
   type: 0 | 1 | 2;
+  createdAt: string;
 }
