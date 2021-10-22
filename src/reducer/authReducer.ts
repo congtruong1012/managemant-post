@@ -5,6 +5,7 @@ import { AnyAction } from 'redux';
 const initialState = {
   loading: false,
   error: '',
+  user: {},
 };
 
 const authReducer = (state = initialState, action: AnyAction) =>
@@ -16,6 +17,7 @@ const authReducer = (state = initialState, action: AnyAction) =>
         break;
       case LOGIN_SUCCESS:
         draft.loading = false;
+        draft.user = action.payload;
         break;
       case LOGIN_FAIL:
         draft.loading = false;

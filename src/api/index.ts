@@ -5,8 +5,11 @@ const AxiosClient = Axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 2000,
+  // timeout: 2000,
 });
+
+// const isTokenExpired = false;
+let refreshTokenRequest: Promise<string> | null;
 
 // Add a request interceptor
 AxiosClient.interceptors.request.use(
@@ -14,7 +17,7 @@ AxiosClient.interceptors.request.use(
     // Do something before request is sent
     const accessToken = localStorage.getItem('token');
 
-    if (accessToken) config.headers['Authorization'] = `Basic ${accessToken}`;
+    if (accessToken) config.headers['Authorization'] = `Bearer ${accessToken}`;
     return config;
   },
   function (error) {
@@ -33,7 +36,30 @@ AxiosClient.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    return Promise.reject(error.data);
+    const originalConfig = error.config;
+
+    if (originalConfig.url !== '/login' && error.response) {
+      // Access Token was expired
+      if (error.response.status === 401) {
+        if (refreshTokenRequest) {
+          refreshTokenRequest.then((token: string) => {
+            originalConfig.headers['Authorization'] = `Bearer ${token}`;
+          });
+        } else {
+          const refreshToken = localStorage.getItem('refresh-token');
+          refreshTokenRequest = AxiosClient.post('/token', {
+            refreshToken,
+          }).then((res) => {
+            refreshTokenRequest = null;
+            const { token } = res.data;
+            localStorage.setItem('token', token);
+            return token;
+          });
+        }
+      }
+    }
+
+    return Promise.reject(error);
   }
 );
 

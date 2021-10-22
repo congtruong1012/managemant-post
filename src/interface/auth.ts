@@ -4,6 +4,9 @@ export interface AuthParams {
 }
 
 export interface AuthPayload {
-  data: string | null;
+  data: {
+    token: string;
+    refreshToken: string;
+  };
   error: string;
 }

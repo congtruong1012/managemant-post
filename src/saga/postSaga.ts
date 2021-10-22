@@ -48,8 +48,6 @@ function* getOverviewApi() {
       getOverviewSuccess({ newest, mostLikes, mostComments, mostShares })
     );
   } catch (error) {
-    console.log('error', error);
-
     yield put(getDashboardFail());
   }
 }

@@ -10,8 +10,10 @@ function* handleLogin({ params }: AnyAction) {
   try {
     const { login } = userApi;
     const resp: AuthPayload = yield call(login, params);
+    console.log('function*handleLogin ~ resp.data', resp.data);
     if (resp.data) {
-      localStorage.setItem('token', resp.data);
+      const { token } = resp.data;
+      localStorage.setItem('token', token);
       yield put(loginSuccess(resp));
       yield put(push('/admin'));
     }
