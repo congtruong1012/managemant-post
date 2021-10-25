@@ -1,17 +1,13 @@
-import React, { useEffect } from 'react';
-import { postApi } from '../../../api/postApi';
+import React from 'react';
+import PageMainTemplate from '../../CommonLayout/templates/PageMainTemplate';
+import FormSearch from './FormSearch';
 
 interface Props {}
 
 export const Posts = (props: Props) => {
-  useEffect(() => {
-    (async () => {
-      const res = await postApi.getAll({
-        _limit: 10,
-        _page: 1,
-      });
-      console.log(res.data);
-    })();
-  });
-  return <div>Post</div>;
+  return (
+    <PageMainTemplate title="Posts">
+      <FormSearch />
+    </PageMainTemplate>
+  );
 };

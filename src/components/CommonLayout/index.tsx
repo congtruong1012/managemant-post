@@ -1,9 +1,9 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import { createTheme } from '@mui/material/styles';
-import Header from './Header';
-import SideBar from './Sidebar';
-import { PrivateRoute } from './PrivateRoute';
+import Header from './organisms/Header';
+import SideBar from './organisms/Sidebar';
+import { PrivateRoute } from './molecules/PrivateRoute';
 import routes from '../../routes';
 import { Switch } from 'react-router';
 const theme = createTheme();
@@ -22,13 +22,12 @@ const useStyles = makeStyles(() => ({
   },
   sidebar: {
     gridArea: 'sidebar',
-    borderRight: `1px solid ${theme.palette.divider}`,
     backgroundColor: theme.palette.background.paper,
   },
   main: {
     gridArea: 'main',
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(2, 3),
+    backgroundColor: '#fafafa',
+    padding: theme.spacing(0, 3),
   },
 }));
 

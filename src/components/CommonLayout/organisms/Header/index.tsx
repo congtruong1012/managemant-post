@@ -1,7 +1,8 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import React from 'react';
-import { logout } from '../../../action';
-import { useAppDispatch } from '../../../hook';
+import { logout } from '../../../../action';
+import { useAppDispatch } from '../../../../hook';
+import LinkTo from '../../molecules/LinkTo';
 
 export default function Header() {
   const dispatch = useAppDispatch();
@@ -11,7 +12,9 @@ export default function Header() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Management Post
+            <LinkTo to="/admin" color="inherit">
+              Management Post
+            </LinkTo>
           </Typography>
           <Button color="inherit" onClick={handleLogout}>
             Logout

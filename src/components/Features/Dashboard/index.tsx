@@ -11,11 +11,12 @@ import React, { useEffect, useState } from 'react';
 import { getDashboard, getOverview } from '../../../action';
 import { useAppDispatch, useAppSelector } from '../../../hook';
 import { Post } from '../../../model';
-import MakeGrid from '../../CommonLayout/MakeGrid';
-import Section from '../../CommonLayout/Section';
-import DataTable from '../../CommonLayout/Table';
-import TypographyLineClamp from '../../CommonLayout/TypographyLineCamp';
+import MakeGrid from '../../CommonLayout/molecules/MakeGrid';
+import Section from '../../CommonLayout/molecules/Section';
+import DataTable from '../../CommonLayout/molecules/Table';
+import TypographyLineClamp from '../../CommonLayout/atom/TypographyLineCamp';
 import _format from 'date-fns/format';
+import PageMainTemplate from '../../CommonLayout/templates/PageMainTemplate';
 
 interface Props {}
 
@@ -143,7 +144,7 @@ export const Dashboard = (props: Props) => {
   });
 
   return (
-    <Section>
+    <PageMainTemplate title="Dashboard">
       <MakeGrid
         grids={formatDashboard.map((item, index) => ({
           children: (
@@ -213,6 +214,6 @@ export const Dashboard = (props: Props) => {
           )}
         </div>
       ))}
-    </Section>
+    </PageMainTemplate>
   );
 };

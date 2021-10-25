@@ -1,8 +1,9 @@
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { ConnectedRouter } from 'connected-react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Switch } from 'react-router';
 import App from './App';
 import history from './history';
 import store from './store';
@@ -12,9 +13,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <Switch>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
           <App />
-        </Switch>
+        </LocalizationProvider>
       </ConnectedRouter>
     </Provider>
   </React.StrictMode>,

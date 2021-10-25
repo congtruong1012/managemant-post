@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CommonLayout } from './components/CommonLayout';
 import { Login } from './components/Features/Login';
 import { Route } from 'react-router-dom';
-import { NotFound } from './components/CommonLayout/NotFound';
+import { Switch, useLocation, useHistory } from 'react-router';
+import { NotFound } from './components/CommonLayout/organisms/NotFound';
 
 function App() {
+  const { pathname } = useLocation();
+  const { push } = useHistory();
+  useEffect(() => {
+    if (pathname === '/') push('/admin');
+  }, []);
   return (
-    <React.Fragment>
-      <Route path="/admin">
-        <CommonLayout />
-      </Route>
+    <Switch>
       <Route path="/login">
         <Login />
       </Route>
-      <Route path="*">
+      <Route path="/admin">
+        <CommonLayout />
+      </Route>
+      <Route>
         <NotFound />
       </Route>
-    </React.Fragment>
+    </Switch>
   );
 }
 

@@ -1,10 +1,10 @@
 import { Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import Image404 from '../../../assets/images/404.jpg';
-import Section from '../../CommonLayout/Section';
-import ButtonRound from '../ButtonRound';
+import { useHistory } from 'react-router-dom';
+import Image404 from '../../../../assets/images/404.jpg';
+import Section from '../../molecules/Section';
+import ButtonRound from '../../atom/ButtonRound';
 
 const useStyles = makeStyles({
   root: {
