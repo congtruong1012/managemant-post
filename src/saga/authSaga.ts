@@ -15,7 +15,7 @@ function* handleLogin({ params }: AnyAction) {
       const { token } = resp.data;
       localStorage.setItem('token', token);
       yield put(loginSuccess(resp));
-      yield put(push('/admin'));
+      yield put(push('/admin/dashboard'));
     }
   } catch (error) {
     yield put(loginFail(error as string));

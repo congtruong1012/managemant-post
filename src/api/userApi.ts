@@ -9,7 +9,7 @@ export const userApi = {
   login(params: AuthParams): Promise<AuthPayload> {
     return AxiosClient.post('/login', params);
   },
-  getAll(params: Params): Promise<ListResponse<User>> {
+  getAll(params?: Params): Promise<ListResponse<User>> {
     return AxiosClient.get('/users', { params });
   },
 };

@@ -9,6 +9,8 @@ interface Props {
 
 function PageMainTemplate(props: Props) {
   const { title, children } = props;
+  console.log('Array.isArray(children)', Array.isArray(children));
+
   return (
     <Section>
       <Card elevation={0}>
@@ -16,9 +18,19 @@ function PageMainTemplate(props: Props) {
           <Typography variant="h5">{title}</Typography>
         </CardContent>
       </Card>
-      <Card elevation={0}>
-        <CardContent>{children}</CardContent>
-      </Card>
+      {Array.isArray(children) ? (
+        <Section>
+          {children.map((item, index) => (
+            <Card elevation={0} key={String(index)}>
+              <CardContent>{item}</CardContent>
+            </Card>
+          ))}
+        </Section>
+      ) : (
+        <Card elevation={0}>
+          <CardContent>{children}</CardContent>
+        </Card>
+      )}
     </Section>
   );
 }

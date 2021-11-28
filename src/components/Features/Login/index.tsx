@@ -1,9 +1,15 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, CircularProgress, Typography } from '@mui/material';
+import {
+  Alert,
+  Button,
+  CircularProgress,
+  TextFieldProps,
+  Typography,
+  TextField,
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import md5 from 'md5';
 import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { login } from '../../../action';
 import { useAppDispatch, useAppSelector } from '../../../hook';
 import { AuthParams } from '../../../interface';
@@ -11,7 +17,8 @@ import yup from '../../../utils/yup';
 import Section from '../../CommonLayout/molecules/Section';
 import jwt from 'jwt-decode';
 import { useHistory } from 'react-router-dom';
-import TextField from '../../CommonLayout/atom/TextField';
+import { yupResolver } from '@hookform/resolvers';
+import { textFieldProps } from '../../../constant/commomProps';
 
 const useStyles = makeStyles({
   root: {
@@ -31,7 +38,7 @@ const useStyles = makeStyles({
 export const Login = () => {
   const classes = useStyles();
   const selector = useAppSelector((state) => state.auth);
-  const { loading } = selector;
+  const { loading, code } = selector;
   const dispatch = useAppDispatch();
   const { push } = useHistory();
 
@@ -41,7 +48,7 @@ export const Login = () => {
   });
 
   const {
-    register,
+    control,
     formState: { errors },
     handleSubmit,
   } = useForm<AuthParams>({
@@ -51,15 +58,18 @@ export const Login = () => {
     },
     resolver: yupResolver(schema),
   });
+  console.log('errorss', errors);
 
   const handleLogin = (data: AuthParams) => {
+    console.log('data', data);
+
     dispatch(login({ ...data, password: md5(data?.password) }));
   };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     const verifyToken = token && jwt(token);
-    if (token && verifyToken) push('/admin');
+    if (token && verifyToken) push('/admin/dashboard');
   }, []);
 
   return (
@@ -70,25 +80,34 @@ export const Login = () => {
             <Typography variant="h5" align="center">
               ĐĂNG NHẬP
             </Typography>
-            <TextField
-              label="Tên đăng nhập"
-              variant="outlined"
-              fullWidth
-              size="small"
-              {...register('username')}
-              error={!!errors?.username}
-              helperText={errors?.username?.message || ''}
+            <Controller
+              name="username"
+              control={control}
+              render={(cProps: JSX.IntrinsicAttributes & TextFieldProps) => (
+                <TextField
+                  label="Tên đăng nhập"
+                  {...textFieldProps}
+                  error={!!errors?.username}
+                  helperText={errors?.username?.message || ''}
+                  {...cProps}
+                />
+              )}
             />
-            <TextField
-              label="Mật khẩu"
-              variant="outlined"
-              type="password"
-              fullWidth
-              size="small"
-              {...register('password')}
-              error={!!errors?.password}
-              helperText={errors?.password?.message || ''}
+            <Controller
+              name="password"
+              control={control}
+              render={(cProps: JSX.IntrinsicAttributes & TextFieldProps) => (
+                <TextField
+                  label="Mật khẩu"
+                  type="password"
+                  {...textFieldProps}
+                  error={!!errors?.password}
+                  helperText={errors?.password?.message || ''}
+                  {...cProps}
+                />
+              )}
             />
+            {code === 401 && <Alert severity="error">Đăng nhập thất bại</Alert>}
             <Button
               type="submit"
               variant="contained"

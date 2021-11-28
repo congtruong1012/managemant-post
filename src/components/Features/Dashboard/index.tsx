@@ -181,39 +181,39 @@ export const Dashboard = (props: Props) => {
             />
           ))}
         </Tabs>
+        {formatOverview.map((item, index) => (
+          <div
+            key={String(index)}
+            role="tabpanel"
+            hidden={tabActive !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+          >
+            {tabActive === index && (
+              <Box sx={{ p: 3 }}>
+                <Card variant="outlined" elevation={0}>
+                  <CardHeader
+                    title={item.title}
+                    titleTypographyProps={{
+                      variant: 'body1',
+                      color: '#fff',
+                    }}
+                    component={Box}
+                    bgcolor="info.main"
+                  />
+                  <DataTable
+                    column={column(item.label)}
+                    rows={item.data}
+                    tableProps={{
+                      sx: { minWidth: 500 },
+                    }}
+                  />
+                </Card>
+              </Box>
+            )}
+          </div>
+        ))}
       </Box>
-      {formatOverview.map((item, index) => (
-        <div
-          key={String(index)}
-          role="tabpanel"
-          hidden={tabActive !== index}
-          id={`simple-tabpanel-${index}`}
-          aria-labelledby={`simple-tab-${index}`}
-        >
-          {tabActive === index && (
-            <Box sx={{ p: 3 }}>
-              <Card variant="outlined" elevation={0}>
-                <CardHeader
-                  title={item.title}
-                  titleTypographyProps={{
-                    variant: 'body1',
-                    color: '#fff',
-                  }}
-                  component={Box}
-                  bgcolor="info.main"
-                />
-                <DataTable
-                  column={column(item.label)}
-                  rows={item.data}
-                  tableProps={{
-                    sx: { minWidth: 500 },
-                  }}
-                />
-              </Card>
-            </Box>
-          )}
-        </div>
-      ))}
     </PageMainTemplate>
   );
 };

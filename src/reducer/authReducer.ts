@@ -4,6 +4,7 @@ import { AnyAction } from 'redux';
 
 const initialState = {
   loading: false,
+  code: 0,
   error: '',
   user: {},
 };
@@ -17,11 +18,13 @@ const authReducer = (state = initialState, action: AnyAction) =>
         break;
       case LOGIN_SUCCESS:
         draft.loading = false;
+        draft.code = 0;
         draft.user = action.payload;
         break;
       case LOGIN_FAIL:
         draft.loading = false;
         draft.error = action.error;
+        draft.code = 401;
         break;
     }
   });

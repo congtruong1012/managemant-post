@@ -7,7 +7,7 @@ export interface Params {
 
 export interface Pagination {
   _page: number;
-  _totalRows: number;
+  _totalPage: number;
 }
 
 export interface ListResponse<T> {

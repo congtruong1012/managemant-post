@@ -13,11 +13,7 @@ interface Props {
 const MakeGrid = ({ grids, containerProps, itemProps }: Props) => (
   <Grid container spacing={2} {...containerProps}>
     {grids.map((item, index) => (
-      <Grid
-        item
-        {...(itemProps ? itemProps : item.gridProps)}
-        key={String(index)}
-      >
+      <Grid item {...(item.gridProps || itemProps)} key={String(index)}>
         {item.children}
       </Grid>
     ))}

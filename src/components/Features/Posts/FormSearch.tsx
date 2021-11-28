@@ -1,50 +1,81 @@
+import { Autocomplete, Button, TextField, TextFieldProps } from '@mui/material';
 import React from 'react';
-import Autocomplete from '../../CommonLayout/atom/Autocomplete';
-import DatePicker from '../../CommonLayout/atom/DatePicker';
-import TextField from '../../CommonLayout/atom/TextField';
+import { textFieldProps } from '../../../constant/commomProps';
 import MakeGrid from '../../CommonLayout/molecules/MakeGrid';
+import { DatePicker } from '@mui/lab';
+import { optionPosts, optionStatus } from '../../../constant';
 
 function FormSearch() {
-  const optionStatus = [
-    { label: 'Đã duyệt', value: 'A' },
-    { label: 'Chưa duyệt', value: 'W' },
-    { label: 'Đã huỷ', value: 'C' },
-  ];
-  const optionPosts = [
-    { label: 'Bài viết thường', value: 0 },
-    { label: 'Bài trải nghiêm', value: 1 },
-    { label: 'Bài viết liên kết', value: 2 },
-  ];
   return (
     <MakeGrid
       grids={[
         {
+          children: <TextField label="Tác giả" {...textFieldProps} />,
+        },
+        {
           children: (
-            <TextField
-              label="Tác giả"
-              variant="outlined"
-              fullWidth
-              size="small"
-              // {...register('username')}
-              // error={!!errors?.username}
-              // helperText={errors?.username?.message || ''}
+            <Autocomplete
+              options={optionStatus}
+              renderInput={(params) => (
+                <TextField {...params} label="Trạng thái" {...textFieldProps} />
+              )}
             />
           ),
         },
         {
-          children: <Autocomplete options={optionStatus} label="Trạng thái" />,
+          children: (
+            <Autocomplete
+              options={optionPosts}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Loại bài viết"
+                  {...textFieldProps}
+                />
+              )}
+            />
+          ),
         },
         {
           children: (
-            <Autocomplete options={optionPosts} label="Loại bài viết" />
+            <DatePicker
+              value={new Date()}
+              onChange={(date) => () => {}}
+              label="Từ ngày"
+              renderInput={(
+                params: JSX.IntrinsicAttributes & TextFieldProps
+              ) => <TextField {...params} {...textFieldProps} />}
+            />
           ),
         },
-        // {
-        //   children: <DatePicker label="Từ ngày" />,
-        // },
-        // {
-        //   children: <DatePicker label="Đến ngày" />,
-        // },
+        {
+          children: (
+            <DatePicker
+              value={new Date()}
+              onChange={(date) => () => {}}
+              label="Đến ngày"
+              renderInput={(
+                params: JSX.IntrinsicAttributes & TextFieldProps
+              ) => <TextField {...params} {...textFieldProps} />}
+            />
+          ),
+        },
+        {
+          children: (
+            <Button variant="contained" color="primary">
+              Tìm kiếm
+            </Button>
+          ),
+          gridProps: { xs: 'auto' },
+        },
+        {
+          children: (
+            <Button variant="contained" color="inherit">
+              Đặt lại
+            </Button>
+          ),
+          gridProps: { xs: 'auto' },
+        },
       ]}
       itemProps={{ xs: 12, sm: 6, md: 3 }}
     />

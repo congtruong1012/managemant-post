@@ -8,11 +8,14 @@ interface Props {
 const Section = ({ children }: Props) => (
   <Grid container spacing={2}>
     {Array.isArray(children) ? (
-      children.map((item, index) => (
-        <Grid item xs={12} key={String(index)}>
-          {item}
-        </Grid>
-      ))
+      children.map(
+        (item, index) =>
+          item && (
+            <Grid item xs={12} key={String(index)}>
+              {item}
+            </Grid>
+          )
+      )
     ) : (
       <Grid item xs={12}>
         {children}

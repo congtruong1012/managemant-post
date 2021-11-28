@@ -1,7 +1,9 @@
-enum Approved {
-  W = 'W',
-  A = 'A',
-  C = 'C',
+import { Params } from './common';
+
+export interface ParamsSearch extends Params {
+  author?: string;
+  approved?: 'W' | 'A' | 'C';
+  type?: 0 | 1 | 2;
 }
 
 export interface Post {
@@ -11,7 +13,7 @@ export interface Post {
   like: number;
   comment: number;
   share: number;
-  approved: Approved;
+  approved: 'W' | 'A' | 'C';
   type: 0 | 1 | 2;
   createdAt: string;
 }

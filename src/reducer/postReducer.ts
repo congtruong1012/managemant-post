@@ -1,3 +1,6 @@
+import { Post } from './../model/post';
+import { Posts } from './../components/Features/Posts/index';
+import { Pagination } from './../model/common';
 import {
   GET_DASHBOARD_SUCCESS,
   GET_DASHBOARD_FAIL,
@@ -7,12 +10,22 @@ import {
 } from './../constant/post';
 import produce from 'immer';
 import { AnyAction } from 'redux';
-import { GET_DASHBOARD } from '../constant';
-import { Post } from '../model';
+import {
+  GET_DASHBOARD,
+  GET_POSTS,
+  GET_POSTS_SUCCESS,
+  GET_POSTS_FAIL,
+} from '../constant';
 
 const initialState = {
-  posts: [],
+  posts: [] as Array<Post>,
+  isLoadingPost: false,
   isLoadingDashboard: false,
+  pagination: {
+    _page: 1,
+    _totalPage: 0,
+  } as Pagination,
+  params: {},
   dashboard: {
     post: 0,
     like: 0,
@@ -31,10 +44,18 @@ const postReducer = (state = initialState, action: AnyAction) =>
   produce(state, (draft) => {
     const { type } = action;
     switch (type) {
-      case 'GET_POST':
-        draft.posts = state.posts;
+      case GET_POSTS:
+        draft.isLoadingPost = true;
+        draft.params = action.params;
         break;
-
+      case GET_POSTS_SUCCESS:
+        draft.isLoadingPost = false;
+        draft.posts = action.payload.data;
+        draft.pagination = action.payload.pagination;
+        break;
+      case GET_POSTS_FAIL:
+        draft.isLoadingPost = false;
+        break;
       case GET_DASHBOARD:
         draft.isLoadingDashboard = true;
         break;

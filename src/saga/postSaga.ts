@@ -1,3 +1,4 @@
+import { GET_POSTS } from './../constant/post';
 import { ListResponse } from './../model/common';
 import { Post } from './../model/post';
 import { Params } from './../model/common';
@@ -9,8 +10,11 @@ import {
   getDashboardFail,
   getDashboardSuccess,
   getOverviewSuccess,
+  getPostsFail,
+  getPostsSuccess,
 } from '../action';
 import { GET_DASHBOARD, GET_OVERVIEW } from '../constant';
+import { AnyAction } from 'redux';
 function* getDashboardApi() {
   try {
     const { getDashboard } = postApi;
@@ -31,6 +35,19 @@ function* getSortOrder(_sort: string, _order: string) {
     _order,
   } as Params);
   return res;
+}
+
+function* getPostsApi(action: AnyAction) {
+  try {
+    const { params } = action;
+    const { getAll } = postApi;
+    const res: ListResponse<Post> = yield call(getAll, params);
+    if (res.data) {
+      yield put(getPostsSuccess(res));
+    }
+  } catch (error) {
+    yield put(getPostsFail(''));
+  }
 }
 
 function* getOverviewApi() {
@@ -55,4 +72,5 @@ function* getOverviewApi() {
 export default function* postSaga() {
   yield takeLatest(GET_DASHBOARD, getDashboardApi);
   yield takeLatest(GET_OVERVIEW, getOverviewApi);
+  yield takeLatest(GET_POSTS, getPostsApi);
 }
